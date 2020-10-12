@@ -1,5 +1,7 @@
 # JFrog Artifactory High Availability Helm Chart
 
+**Heads up: Our Helm Chart docs are moving to our main documentation site. For Artifactory installers, see [Installing Artifactory](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory).**
+
 ## Prerequisites Details
 
 * Kubernetes 1.12+
@@ -65,7 +67,7 @@ artifactory:
     <YOUR_SYSTEM_YAML_CONFIGURATION>
 ```
 
-### Deploying Artifactory for small/medium/large instllations
+### Deploying Artifactory for small/medium/large installations
 In the chart directory, we have added three values files, one for each installation type - small/medium/large. These values files are recommendations for setting resources requests and limits for your installation. The values are derived from the following [documentation](https://www.jfrog.com/confluence/display/EP/Installing+on+Kubernetes#InstallingonKubernetes-Systemrequirements). You can find them in the corresponding chart directory -  values-small.yaml, values-medium.yaml and values-large.yaml
 
 ### Accessing Artifactory
@@ -1243,6 +1245,30 @@ Then install nginx-ingress with the values file you created:
 ```bash
 helm upgrade --install nginx-ingress --namespace nginx-ingress center/kubernetes-ingress-nginx/ingress-nginx -f values.yaml
 ```
+
+### Prometheus Metrics
+
+If you want to enable Prometheus metrics you can use the `metrics` configuration options.  Enabling this option requires that the Promtheus Operator already be deployed and the associated CRDs created.
+
+The simplest way is to install Artifactory with the following command:
+
+```bash
+helm upgrade --install artifactory-ha --namespace artifactory-ha --set metrics.enabled=true center/jfrog/artifactory-ha
+```
+
+This will create a new service exposing the Prometheus metrics as well as a ServiceMonitor object for the Prometheus Operator to start scraping.
+
+NOTE: Enabling this does NOT create a container which will actually parse the log files for metrics.  See the Fluentd section below.
+
+### Fluentd
+
+The suggested way to parse the log files for metrics is to install Fluentd as a sidecar container.  This can be done with the `fluentd` configuration options.
+
+```bash
+helm upgrade --install artifactory-ha --namespace artifactory-ha --set fluentd.enabled=true center/jfrog/artifactory-ha
+```
+
+This will install Artifactory with Fluentd running as a sidecar container sharing the persistent volume where the log files are written.
 
 ## Useful links
 - https://www.jfrog.com/confluence/display/EP/Getting+Started

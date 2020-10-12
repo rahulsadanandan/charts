@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 
 readonly IMAGE_TAG=${CHART_TESTING_TAG}
-readonly IMAGE_REPOSITORY="quay.io/helmpack/chart-testing"
+readonly IMAGE_REPOSITORY="quay.io/rimusz/charts-ci"
 readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
 # shellcheck disable=SC2034  # This variable is used by the script get_helm.sh
 readonly DESIRED_VERSION=${HELM_VERSION}
@@ -52,7 +52,7 @@ validate_manifests() {
         rm -rf stable
         mkdir stable
         pwd
-        helm template "${REPO_ROOT}/${chart_name}" --output-dir stable --set distribution.jfrogUrl=http://artifactory-artifactory.rt:8082,missionControl.jfrogUrl=http://artifactory-artifactory.rt:8082,pipelines.jfrogUrl=http://artifactory-artifactory.rt:8082,pipelines.jfrogUrlUi=http://artifactory-artifactory.rt:8082,xray.jfrogUrl=http://artifactory-artifactory.rt:8082,postgresql.postgresqlPassword=password > /dev/null 2>&1
+        helm template "${REPO_ROOT}/${chart_name}" --output-dir stable --set distribution.jfrogUrl=http://artifactory-artifactory.rt:8082,missionControl.jfrogUrl=http://artifactory-artifactory.rt:8082,pipelines.jfrogUrl=http://artifactory-artifactory.rt:8082,pipelines.jfrogUrlUI=http://artifactory-artifactory.rt:8082,xray.jfrogUrl=http://artifactory-artifactory.rt:8082,postgresql.postgresqlPassword=password > /dev/null 2>&1
         TEMPLATE_FILES="${chart_name}/templates"
         if [ -d "${TEMPLATE_FILES}" ] 
         then

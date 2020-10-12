@@ -1,8 +1,25 @@
 # JFrog Mission-Control Chart Changelog
 All changes to this chart will be documented in this file.
 
-## [5.0.1] - Sep 14, 2020
+## [5.1.0] - Oct 12, 2020
 * Upgrade Elasticsearch version to 7.8.0
+
+## [5.0.5] - Oct 9, 2020
+* Add support for customInitContainersBegin
+
+## [5.0.4] - Oct 1, 2020
+* Added support for resources in init containers
+
+## [5.0.3] - Sep 29, 2020
+* Fix broken failure when using existing pvc
+
+## [5.0.2] - Sep 25, 2020
+* Changed insightServer.internalHttpPort to `8087`
+* Changed initial replicaCount to 1 when replicacount > 1
+* Update filebeat version to `7.9.2`
+
+## [5.0.1] - Sep 22, 2020
+* Readme updates
 
 ## [5.0.0] - Sep 3, 2020
 * **Breaking change:** Modified `imagePullSecrets` value from string to list.

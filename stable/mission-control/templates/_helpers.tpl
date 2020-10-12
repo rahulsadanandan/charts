@@ -43,7 +43,7 @@ Create a list of elasticsearch master eligible nodes.
 This will create one entry per replica.
 */}}
 {{- define "elasticsearch.endpoints" -}}
-{{- $replicas := int (toString (.Values.replicaCount)) }}
+{{- $replicas := 1 }}
 {{- $releaseName := printf "%s" (include "mission-control.fullname" .) }}
   {{- range $i, $e := untilStep 0 $replicas 1 -}}
 {{ $releaseName }}-{{ $i }},
@@ -188,6 +188,17 @@ imagePullSecrets:
 {{- range .Values.imagePullSecrets }}
   - name: {{ . }}
 {{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Resolve customInitContainersBegin value
+*/}}
+{{- define "mission-control.customInitContainersBegin" -}}
+{{- if .Values.global.customInitContainersBegin -}}
+{{- .Values.global.customInitContainersBegin -}}
+{{- else if .Values.common.customInitContainersBegin -}}
+{{- .Values.common.customInitContainersBegin -}}
 {{- end -}}
 {{- end -}}
 
