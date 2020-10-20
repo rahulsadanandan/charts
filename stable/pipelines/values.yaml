@@ -424,6 +424,19 @@ pipelines:
       #   cpu: 100m
       #   memory: 128Mi
 
+  templateSync:
+    image:
+      repository: jfrog/pipelines-micro
+      pullPolicy: IfNotPresent
+
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+
   logup:
     image:
       # registry:
@@ -672,6 +685,7 @@ pipelines:
           - "core.nexec"
           - "core.hookHandler"
           - "core.extensionSync"
+          - "core.templateSync"
         ui:
           {{- if .Values.rabbitmq.enabled }}
           username: {{ .Values.pipelines.msg.uiUser }}
@@ -831,6 +845,8 @@ pipelines:
           name: hookHandler
         marshaller:
           name: marshaller
+        templateSync:
+          name: templateSync
         extensionSync:
           name: extensionSync
 

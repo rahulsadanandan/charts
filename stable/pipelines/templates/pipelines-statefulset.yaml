@@ -383,6 +383,20 @@ spec:
             mountPath: {{ .Values.pipelines.mountPath }}
           - name: jfrog-pipelines-logs
             mountPath: {{ .Values.pipelines.logPath }}
+        - name: templatesync
+          image: {{ include "pipelines.getImageInfoByValue" (list . "pipelines" "templateSync" )
+          imagePullPolicy: {{ .Values.pipelines.marshaller.image.pullPolicy }}
+          workingDir: /opt/jfrog/pipelines/app/micro/templateSync
+          env:
+            - name: COMPONENT
+              value: templatesync
+          resources:
+            {{- toYaml .Values.pipelines.templateSync.resources | nindent 12 }}
+          volumeMounts:
+          - name: jfrog-pipelines-folder
+            mountPath: {{ .Values.pipelines.mountPath }}
+          - name: jfrog-pipelines-logs
+            mountPath: {{ .Values.pipelines.logPath }}
         - name: logup
           image: {{ include "pipelines.getImageInfoByValue" (list . "pipelines" "logup" ) }}
           imagePullPolicy: {{ .Values.pipelines.logup.image.pullPolicy }}
