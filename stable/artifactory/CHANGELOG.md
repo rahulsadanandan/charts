@@ -1,6 +1,9 @@
 # JFrog Artifactory Chart Changelog
 All changes to this chart will be documented in this file.
 
+## [11.4.2] - Oct 23, 2020
+* Pass system.yaml via external secret for advanced usecases
+
 ## [11.4.1] - Oct 20, 2020
 * Add flag to disable prepare-custom-persistent-volume init container
 

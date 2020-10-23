@@ -45,6 +45,12 @@ installerInfo: '{"productId": "Helm_artifactory/{{ .Chart.Version }}", "features
 # imagePullSecrets:
 #   - myRegistryKeySecretName
 
+## Existing secret with application's system.yaml
+## This is for advanced usecases (all values resolved automatically in artifactory.systemYaml should be manually provided)
+systemYaml: {}
+#   existingSecret: sy
+#   dataKey: system.yaml
+
 ## Role Based Access Control
 ## Ref: https://kubernetes.io/docs/admin/authorization/rbac/
 rbac:
@@ -235,13 +241,13 @@ artifactory:
 
   ## Add custom init containers execution after predefined init containers
   customInitContainers: |
-  #  - name: "custom-setup"
+  #  - name: "custom-systemyaml-setup"
   #    image: "{{ .Values.initContainerImage }}"
   #    imagePullPolicy: "{{ .Values.artifactory.image.pullPolicy }}"
   #    command:
   #      - 'sh'
   #      - '-c'
-  #      - 'touch {{ .Values.artifactory.persistence.mountPath }}/example-custom-setup'
+  #      - 'wget -O {{ .Values.artifactory.persistence.mountPath }}/etc/system.yaml https://helmtest:helmtest@entplussaas.jfrog.io/entplussaas/helm-dev-local/systemyaml'
   #    volumeMounts:
   #      - mountPath: "{{ .Values.artifactory.persistence.mountPath }}"
   #        name: artifactory-volume
